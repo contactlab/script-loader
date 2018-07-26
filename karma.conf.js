@@ -1,12 +1,28 @@
+const path = require('path');
+
 process.env.CHROME_BIN = require('puppeteer').executablePath();
 
 module.exports = function(config) {
   config.set({
     basePath: '',
     frameworks: ['mocha', 'chai'],
+    webpack: {
+      mode: 'production',
+      module: {
+        rules: [
+          {
+            include: [
+              path.resolve(__dirname, 'src'),
+              path.resolve(__dirname, 'test')
+            ],
+            use: {
+              loader: 'babel-loader'
+            }
+          }
+        ]
+      }
+    },
     files: [
-      'node_modules/sinon/pkg/sinon.js',
-      'node_modules/fetch-mock/dist/es5/client-bundle.js',
       'test/init.js',
       'src/loader.js',
       'test/loader.spec.js'
@@ -14,7 +30,8 @@ module.exports = function(config) {
     exclude: [
     ],
     preprocessors: {
-      'src/loader.js': ['coverage']
+      'src/*.js': ['webpack'],
+      'test/*.js': ['webpack']
     },
     reporters: ['progress', 'coverage'],
     port: 9876,

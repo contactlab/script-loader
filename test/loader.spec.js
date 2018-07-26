@@ -1,5 +1,7 @@
 /* eslint-env mocha */
-/* global expect, fetchMock, sinon */
+/* global expect */
+
+import sinon from 'sinon';
 
 beforeEach(() => {
   window.ContactlabLoaderEndpoint = undefined;
@@ -13,7 +15,7 @@ describe('The loader', () => {
   });
 
   it('fetches config from the default endpoint', () => {
-    expect(fetchMock.called()).to.be.true;
+    expect(window.fetchMock.called()).to.be.true;
   });
 
   it('appends the snippet to the DOM', () => {
@@ -45,23 +47,23 @@ describe('Debugging logs', () => {
 
 describe('The configuration endpoint', () => {
   it('can be overridden', () => {
-    fetchMock.get('http://example.com', {});
+    window.fetchMock.get('http://example.com', {});
     window.ContactlabLoaderEndpoint = 'http://example.com';
     window.cl('SOME_ID');
-    expect(fetchMock.called('http://example.com')).to.be.true;
+    expect(window.fetchMock.called('http://example.com')).to.be.true;
   });
 
   it('can contain a placeholder {{id}}', () => {
-    fetchMock.get('http://example.com/SOME_OTHER_ID.json', {});
+    window.fetchMock.get('http://example.com/SOME_OTHER_ID.json', {});
     window.ContactlabLoaderEndpoint = 'http://example.com/{{id}}.json';
     window.cl('SOME_OTHER_ID');
-    expect(fetchMock.called('http://example.com/SOME_OTHER_ID.json')).to.be.true;
+    expect(window.fetchMock.called('http://example.com/SOME_OTHER_ID.json')).to.be.true;
   });
 });
 
 describe('Edge cases:', () => {
   it('should reject if it fails to fetch the JSON', (done) => {
-    fetchMock.get('http://invalid.url', 404);
+    window.fetchMock.get('http://invalid.url', 404);
     window.ContactlabLoaderEndpoint = 'http://invalid.url';
     window.cl('ANY_ID')
       .then(() => {

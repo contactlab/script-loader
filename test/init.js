@@ -1,8 +1,8 @@
-/* global fetchMock */
+import fetchMock from 'fetch-mock';
 
 const defaultEndpoint = 'https://otcybcnpcfjrvwkzhm.our.buildo.io/https://loader-configs-axsvjinwnn.now.sh';
 
-fetchMock.get(`begin:${defaultEndpoint}`, {
+window.fetchMock = fetchMock.get(`begin:${defaultEndpoint}`, {
   EXAMPLE_ID: { script: '<script>window.foo = "hello";</script>' }
 });
 
