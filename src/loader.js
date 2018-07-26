@@ -1,3 +1,7 @@
+import fetchPonyfill from 'fetch-ponyfill';
+
+const { fetch } = fetchPonyfill({ Promise });
+
 const debug = (msg) => {
   const loaderDebug = window.ContactlabLoaderDebug || false;
 
