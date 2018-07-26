@@ -8,10 +8,6 @@ beforeEach(() => {
 });
 
 describe('The loader', () => {
-  it('is defined', () => {
-    expect(window.cl).not.to.be.undefined;
-  });
-
   it('returns a Promise', () => {
     expect(window.cl('ID')).to.be.a('Promise');
   });
@@ -52,14 +48,14 @@ describe('The configuration endpoint', () => {
     fetchMock.get('http://example.com', {});
     window.ContactlabLoaderEndpoint = 'http://example.com';
     window.cl('SOME_ID');
-    expect(fetchMock.called()).to.be.true;
+    expect(fetchMock.called('http://example.com')).to.be.true;
   });
 
   it('can contain a placeholder {{id}}', () => {
     fetchMock.get('http://example.com/SOME_OTHER_ID.json', {});
     window.ContactlabLoaderEndpoint = 'http://example.com/{{id}}.json';
     window.cl('SOME_OTHER_ID');
-    expect(fetchMock.called()).to.be.true;
+    expect(fetchMock.called('http://example.com/SOME_OTHER_ID.json')).to.be.true;
   });
 });
 
@@ -67,23 +63,35 @@ describe('Edge cases:', () => {
   it('should reject if it fails to fetch the JSON', (done) => {
     fetchMock.get('http://invalid.url', 404);
     window.ContactlabLoaderEndpoint = 'http://invalid.url';
-    window.cl('ANY_ID').catch(() => {
-      done();
-    });
+    window.cl('ANY_ID')
+      .then(() => {
+        done(new Error('promise resolved when rejection expected'));
+      })
+      .catch(() => {
+        done();
+      });
   });
 
   it('should reject if the ID is not found in the JSON', (done) => {
-    window.cl('MISSING_ID').catch(() => {
-      done();
-    });
+    window.cl('MISSING_ID')
+      .then(() => {
+        done(new Error('promise resolved when rejection expected'));
+      })
+      .catch(() => {
+        done();
+      });
   });
 
   it('should not append any snippet if the ID is not found in the JSON', (done) => {
     const fake = sinon.fake();
     sinon.replace(document.head, 'appendChild', fake);
-    window.cl('MISSING_ID').catch(() => {
-      sinon.assert.notCalled(fake);
-      done();
-    });
+    window.cl('MISSING_ID')
+      .then(() => {
+        done(new Error('promise resolved when rejection expected'));
+      })
+      .catch(() => {
+        sinon.assert.notCalled(fake);
+        done();
+      });
   });
 });
