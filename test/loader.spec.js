@@ -18,13 +18,19 @@ describe('The loader', () => {
     expect(window.fetchMock.called()).to.be.true;
   });
 
-  it('appends the snippet to the DOM', () => {
-    const scripts = Array.from(document.scripts).map(e => e.outerHTML);
-    expect(scripts).to.contain('<script>window.foo = "hello";</script>');
+  it('appends the snippet to the DOM', (done) => {
+    window.cl('EXAMPLE_ID').then(() => {
+      const scripts = Array.from(document.scripts).map(e => e.outerHTML);
+      expect(scripts).to.contain('<script>window.foo = "hello";</script>');
+      done();
+    }).catch(() => { done(new Error('promise rejected')); });
   });
 
-  it('runs the scripts contained in the snippet', () => {
-    expect(window.foo).to.equal('hello');
+  it('runs the scripts contained in the snippet', (done) => {
+    window.cl('EXAMPLE_ID').then(() => {
+      expect(window.foo).to.equal('hello');
+      done();
+    }).catch(() => { done(new Error('promise rejected')); });
   });
 });
 
