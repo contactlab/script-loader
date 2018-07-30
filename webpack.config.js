@@ -1,7 +1,7 @@
 const path = require('path');
 
 module.exports = {
-  mode: 'production',
+  mode: 'none',
   entry: path.resolve(__dirname, './src/loader.js'),
   output: {
     path: path.resolve(__dirname, 'dist'),

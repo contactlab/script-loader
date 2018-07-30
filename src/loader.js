@@ -1,6 +1,8 @@
-import fetchPonyfill from 'fetch-ponyfill';
+const fetchPonyfill = require('fetch-ponyfill');
+const Promise = require('core-js/library/fn/promise');
 
-const fetch = window.fetch || fetchPonyfill({ Promise }).fetch;
+const fetch = window.fetch ||
+              (Object.create && fetchPonyfill({ Promise }).fetch);
 
 const debug = (msg) => {
   const loaderDebug = window.ContactlabLoaderDebug || false;
@@ -35,7 +37,7 @@ const Loader = (id) => {
         reject();
       }
       resolve();
-    }).catch(() => {
+    }, () => {
       debug('Could not fetch configuration');
       reject();
     });
