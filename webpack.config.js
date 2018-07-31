@@ -1,11 +1,15 @@
 const path = require('path');
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 
 module.exports = {
-  mode: 'none',
-  entry: path.resolve(__dirname, './src/loader.js'),
+  mode: 'production',
+  entry: {
+    loader: path.resolve(__dirname, './src/loader.js'),
+    'loader.min': path.resolve(__dirname, './src/loader.js')
+  },
   output: {
     path: path.resolve(__dirname, 'dist'),
-    filename: 'loader.js'
+    filename: '[name].js'
   },
   module: {
     rules: [
@@ -16,6 +20,17 @@ module.exports = {
           loader: 'babel-loader'
         }
       }
+    ]
+  },
+  optimization: {
+    minimizer: [
+      new UglifyJsPlugin({
+        include: /\.min\.js$/,
+        uglifyOptions: {
+          ie8: true,
+          safari10: true
+        }
+      })
     ]
   }
 };
