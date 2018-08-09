@@ -1,10 +1,10 @@
 import fetchMock from 'fetch-mock';
 
-const defaultEndpoint = 'https://otcybcnpcfjrvwkzhm.our.buildo.io/https://loader-configs-axsvjinwnn.now.sh';
+const defaultEndpoint = 'https://script-loader-json-test.now.sh/json/';
 
 window.fetchMock = fetchMock.get(`begin:${defaultEndpoint}`, {
-  EXAMPLE_ID: { script: '<script>window.foo = "hello";</script>' }
+  script: '<script>window.foo = "hello";</script>'
 });
 
 window.cl = function() {(window.cl.q = window.cl.q || []).push(arguments);};
-window.cl('EXAMPLE_ID');
+window.cl('test-example');

@@ -14,7 +14,7 @@ Insert this snippet in your website (preferably in the `<HEAD>` section):
   window.cl=function(){(cl.q=cl.q||[]).push(arguments)};
   cl('EXAMPLE_ID');
   </script>
-  <script async src='https://assets.contactlab.it/contacthub/sdk-browser/latest/script-loader.min.js'></script>
+  <script async src='https://assets.contactlab.it/script-loader/latest/script-loader.min.js'></script>
 ```
 
 We recommend that you load libraries from the CDN via HTTPS, even if your own
