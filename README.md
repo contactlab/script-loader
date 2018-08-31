@@ -1,4 +1,11 @@
+
+
 # Contactlab Loader
+
+
+[![Build Status](https://travis-ci.org/contactlab/script-loader.svg?branch=master)](https://travis-ci.org/contactlab/script-loader)
+[![GitHub release](https://img.shields.io/github/release/contactlab/script-loader.svg)](https://github.com/contactlab/script-loader/releases)
+
 
 Similar to a [Tag manager](https://en.wikipedia.org/wiki/Tag_management_system),
 this script allows Contactlab clients to insert a single JavaScript tag in their
