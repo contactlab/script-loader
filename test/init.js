@@ -1,6 +1,6 @@
 import fetchMock from 'fetch-mock';
 
-const defaultEndpoint = 'https://script-loader-json-test.now.sh/json/';
+const defaultEndpoint = 'https://loader-conf.contactlab.it/';
 
 window.fetchMock = fetchMock.get(`begin:${defaultEndpoint}`, {
   script: '<script>window.foo = "hello";</script>'

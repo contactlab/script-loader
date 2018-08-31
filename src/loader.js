@@ -14,11 +14,9 @@ const debug = (msg) => {
 
 const Loader = (id) => {
   const promise = new Promise((resolve, reject) => {
-
-    // TODO: replace default endpoint with production endpoint
-    const loaderEndpoint = window.ContactlabLoaderEndpoint || 'https://script-loader-json-test.now.sh/json/';
+    const loaderEndpoint = window.ContactlabLoaderEndpoint || 'https://loader-conf.contactlab.it/';
     debug(`Using endpoint "${loaderEndpoint}"`);
-    const entpointTemplate = loaderEndpoint.replace(/\/$/, "") + '/{{id}}'
+    const entpointTemplate = `${loaderEndpoint.replace(/\/$/, '')}/{{id}}`;
     debug(`Invoking with id "${id}"`);
     const endpoint = entpointTemplate.replace('{{id}}', id);
     debug(`Fetching config from ${endpoint}`);
@@ -34,7 +32,7 @@ const Loader = (id) => {
           range.createContextualFragment(script)
         );
       } else {
-        debug(`Could not find a valid JSON configuration`);
+        debug('Could not find a valid JSON configuration');
         reject();
       }
       resolve();
